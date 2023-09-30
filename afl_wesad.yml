@@ -1,0 +1,79 @@
+clients:
+    total_clients: 100
+    per_round: 10
+    do_test: false
+    speed_simulation: true
+    simulation_distribution:
+        distribution: normal
+        mean: 10
+        sd: 3
+    sleep_simulation: true
+    avg_training_time: 20
+    random_seed: 1
+server:
+    address: 127.0.0.1
+    port: 8080
+    synchronous: false
+    simulate_wall_time: true
+    minimum_clients_aggregated: 6
+    staleness_bound: 10
+    random_seed: 1
+    checkpoint_path: results/AFL_model/test/checkpoint
+    model_path: results/AFL_model/test/model
+    response_latency_distribution:
+        args:
+            a: 1.2
+            max: 180
+            min: 16
+            seed: 1
+        name: zipf
+        seconds: 14400
+    disable_clients: false
+
+data:
+    partition_size: 100
+    partition_distribution:
+        distribution: uniform
+        low: 0.4
+        high: 1.0
+    sampler: all_inclusive
+    concentration: 0.5
+    random_seed: 1
+    per_client_classes_size: 20
+    anchor_classes: 6
+    consistent_clients_size: 6
+    keep_anchor_classes_size: 6
+    client_quantity_concentration: 0.4
+    min_partition_size: 50
+
+
+trainer:
+    type: basic
+    rounds: 10
+    max_concurrency: 6
+    target_accuracy: 1
+    model_name: aflmodel
+    epochs: 1
+    batch_size: 32
+    optimizer: SGD
+
+
+algorithm:
+    type: fedavg
+    alpha1: 0.75
+    alpha2: 0.01
+    alpha3: 0.1
+
+parameters:
+    optimizer:
+        lr: 0.01
+        momentum: 0.9
+        weight_decay: 0.0
+
+results:
+    result_path: results/AFL_model/test/
+    types: round, accuracy, elapsed_time, round_time
+    plot: round-accuracy, elapsed_time-accuracy
+    cols: 1
+    subprocess: 17648
+    trial: 6

@@ -1,0 +1,58 @@
+clients:
+    type: simple
+    total_clients: 100
+    per_round: 10
+    do_test: false
+
+server:
+    address: 127.0.0.1
+    port: 8080
+    desired_duration: 70
+    do_test: true
+    random_seed: 1
+    step_window: 2
+    penalty: 2
+    exploration_factor: 0.9
+    checkpoint_path: results/oort/test/checkpoint
+    model_path: results/oort/test/models
+
+data:
+    data_path: ../../data/WESAD
+    partition_size: 100
+    sampler: noniid
+    #testset_size: 1000
+    random_seed: 1
+    per_client_classes_size: 20
+    anchor_classes: 6
+    consistent_clients_size: 6
+    keep_anchor_classes_size: 6
+    client_quantity_concentration: 0.4
+    min_partition_size: 50
+
+trainer:
+    type: basic
+    rounds: 10
+    max_concurrency: 6
+    target_accuracy: 1
+    epochs: 1
+    batch_size: 32
+    optimizer: SGD
+    model_name: oortmodels
+    num_classes: 20
+
+algorithm:
+    type: fedavg
+
+results:
+    result_path: results/oort/test
+    types: round, accuracy, elapsed_time, round_time
+    plot: round-accuracy, elapsed_time-accuracy
+    cols: 1
+    subprocess: 7856
+    trial: 6
+
+parameters:
+    optimizer:
+        lr: 0.005
+        momentum: 0.9
+        weight_decay: 0.0
